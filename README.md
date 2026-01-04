@@ -61,7 +61,7 @@ cd SwiftNet/build
 
 ## Example
 ```
-struct SwiftNetClientConnection* const client_conn = swiftnet_create_client(args.ip_address, 8080, 1000);
+struct SwiftNetClientConnection* const client_conn = swiftnet_create_client("127.0.0.1", 8080, 1000);
 if (client_conn == NULL) {
     printf("Failed to create client connection\n");
     return -1;
