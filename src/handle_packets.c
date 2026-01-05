@@ -54,6 +54,7 @@ static inline struct PacketQueueNode* construct_node(const uint32_t data_read, v
     node->data = data;
     node->data_read = data_read;
     node->sender_address.s_addr = sender_address;
+    
     node->next = NULL;
 
     return node;
@@ -82,6 +83,7 @@ static inline void swiftnet_handle_packets(const uint16_t source_port, pthread_t
             struct ip *ip_header = (struct ip *)(packet_buffer + sizeof(struct ether_header));
 
             sender_address = ip_header->ip_src.s_addr;
+            
         } else {
             allocator_free(&packet_buffer_memory_allocator, packet_buffer);
             return;
