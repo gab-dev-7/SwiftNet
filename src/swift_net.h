@@ -39,8 +39,8 @@ enum PacketType {
     SEND_LOST_PACKETS_REQUEST = 0x03,
     SEND_LOST_PACKETS_RESPONSE = 0x04,
     SUCCESSFULLY_RECEIVED_PACKET = 0x05,
-    REQUEST = 0x06,
 #ifdef SWIFT_NET_REQUESTS
+    REQUEST = 0x06,
     RESPONSE = 0x07,
 #endif
 };
@@ -397,7 +397,7 @@ extern void swiftnet_server_make_response(
 #ifdef SWIFT_NET_DEBUG
     // Adds one or more debug flags to the global debugger state.
     extern void swiftnet_add_debug_flags(const uint32_t flags);
-// Removes one or more debug flags from the global debugger state.
+    // Removes one or more debug flags from the global debugger state.
     extern void swiftnet_remove_debug_flags(const uint32_t flags);
 #endif
 
