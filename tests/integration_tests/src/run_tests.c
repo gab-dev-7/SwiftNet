@@ -231,7 +231,7 @@ int main() {
             return -1;
         }
 
-        printf("\033[32mSuccessfully completed test: %s\033[0m\n", current_test->test_name);
+        PRINT_SUCCESS("Successfully completed test: %s", current_test->test_name);
 
         continue;
     }

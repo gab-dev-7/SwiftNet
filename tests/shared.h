@@ -19,6 +19,9 @@
 #define PRINT_ERROR(error, ...) \
     printf("\033[31m" error "\033[0m\n", ##__VA_ARGS__)
 
+#define PRINT_SUCCESS(error, ...) \
+    printf("\033[32m" error "\033[0m\n", ##__VA_ARGS__);
+
 enum ConnectionType {
     Server,
     Client

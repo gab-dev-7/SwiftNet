@@ -7,6 +7,8 @@ install_manifest.txt
 Makefile
 *.cmake
 
+!/build/cmake
+
 compile_commands.json
 
 /build/output/

@@ -1,3 +1,4 @@
+#include <stdatomic.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -8,21 +9,25 @@
 
 
 #define PACKET_SIZE 1000000 // 1 MILLION BYTES
-#define PACKETS_TO_SEND 500 // HOW MANY PACKETS TO SEND
+#define PACKETS_TO_SEND 50 // HOW MANY PACKETS TO SEND
 
 // ********************** //
-// SEND 500 MILLION BYTES //
+// SEND 50 MILLION BYTES //
 // ********************** //
 
 char private_ip_address_testing[INET_ADDRSTRLEN];
 
-static clock_t start;
-static clock_t end;
+static struct timespec start, end;
 
 static uint32_t packets_received = 0;
+static _Atomic bool finished = false;
 
 void packet_callback(struct SwiftNetServerPacketData* const packet_data, void* server) {
     packets_received++;
+
+    if (packets_received == PACKETS_TO_SEND) {
+        atomic_store_explicit(&finished, true, memory_order_release);
+    }
 
     swiftnet_server_destroy_packet_data(packet_data, server);
 }
@@ -54,20 +59,26 @@ void send_large_packets(const bool loopback) {
 
     swiftnet_client_append_to_packet(random_data, PACKET_SIZE, &buffer);
 
-    start = clock();
+    clock_gettime(CLOCK_MONOTONIC, &start);;
 
     for (uint32_t i = 0; i < PACKETS_TO_SEND; i++) {
         swiftnet_client_send_packet(client, &buffer);
     }
 
-    while (packets_received != PACKETS_TO_SEND) {
-        usleep(100);
+    while (atomic_load_explicit(&finished, memory_order_acquire) == false) {
         continue;
     }
 
     swiftnet_client_destroy_packet_buffer(&buffer);
 
-    end = clock();
+    clock_gettime(CLOCK_MONOTONIC, &end);;
+
+    usleep(100000);
+
+    double elapsed = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1e9;
+
+    PRINT_SUCCESS("Time to send: %.2f seconds", elapsed);
+    PRINT_SUCCESS("Bytes per second: %.2f", (PACKETS_TO_SEND * PACKET_SIZE) / elapsed)
 
     swiftnet_client_cleanup(client);
 }
@@ -77,9 +88,7 @@ int main() {
 
     swiftnet_add_debug_flags(PACKETS_SENDING | PACKETS_RECEIVING | INITIALIZATION | LOST_PACKETS);
 
-    send_large_packets(true);
-
-    printf("Time to send: %f\n", (double)(end - start) / CLOCKS_PER_SEC);
+    send_large_packets(false);
 
     swiftnet_cleanup();
 

@@ -1,2 +1,2 @@
-cmake . -DCMAKE_BUILD_TYPE=Debug -DSANITIZER=thread
+cmake . -DCMAKE_BUILD_TYPE=Release -DSANITIZER=false
 make -B -j8

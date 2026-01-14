@@ -1,2 +1,2 @@
-cmake ../src -DCMAKE_BUILD_TYPE=Release
+cmake ../src -DCMAKE_BUILD_TYPE=Release -DSANITIZER=none
 make -B -j8

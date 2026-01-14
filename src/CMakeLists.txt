@@ -5,6 +5,8 @@ include(GNUInstallDirs)
 
 set(CMAKE_C_STANDARD 99)
 
+option(SWIFT_NET_INTERNAL_TESTING "Enable internal testing features" OFF)
+
 set(SOURCE_FILES
     initialize_swift_net.c
     send_packet.c
@@ -50,11 +52,15 @@ endif()
 add_library(swiftnet STATIC ${SOURCE_FILES})
 
 if (SWIFT_NET_INTERNAL_TESTING)
+    message("Internal Testing Enabled")
+
     add_compile_definitions(SWIFT_NET_INTERNAL_TESTING)
 
     target_compile_options(swiftnet PRIVATE -O0)
     target_link_options(swiftnet PRIVATE -O0)
 else()
+    message("Internal Testing Disabled")
+
     target_compile_options(swiftnet PRIVATE -O3)
     target_link_options(swiftnet PRIVATE -O3)
 endif()
