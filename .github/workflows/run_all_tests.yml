@@ -10,7 +10,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [Linux, macOS]
+        os: [macOS]
         arch: [ARM64]
 
     runs-on:
