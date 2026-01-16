@@ -91,5 +91,8 @@ Contributions are very welcome no matter how small. Every single PR, issue, ques
 - **Found a bug or have a feature idea?** Open an issue to discuss it first (especially for larger changes).
 - **Want to fix something yourself?** Fork the repo, create a branch, and submit a pull request.
 
+### Rules
+- **AI** - You're free to use anything you want to your advantage, but AI written slop that wasn't even ran locally won't be merged. If you don't understand the code please do not subbmit anything.
+
 ## License
 This project is licensed under the Apache License 2.0
