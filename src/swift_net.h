@@ -54,14 +54,17 @@ extern uint32_t maximum_transmission_unit;
 
 #ifdef SWIFT_NET_DEBUG
 enum SwiftNetDebugFlags {
-    PACKETS_SENDING = 1u << 0,
-    PACKETS_RECEIVING = 1u << 1,
-    INITIALIZATION = 1u << 2,
-    LOST_PACKETS = 1u << 3
+    PACKETS_SENDING = 1u << 1,
+    PACKETS_RECEIVING = 1u << 2,
+    INITIALIZATION = 1u << 3,
+    LOST_PACKETS = 1u << 4
 };
 
+#define SWIFTNET_DEBUG_FLAGS(num) \
+    ((enum SwiftNetDebugFlags)(num))
+
 struct SwiftNetDebugger {
-    uint32_t flags;
+    int flags;
 };
 #endif
 
@@ -396,9 +399,9 @@ extern void swiftnet_server_make_response(
 
 #ifdef SWIFT_NET_DEBUG
     // Adds one or more debug flags to the global debugger state.
-    extern void swiftnet_add_debug_flags(const uint32_t flags);
+    extern void swiftnet_add_debug_flags(const enum SwiftNetDebugFlags flags);
     // Removes one or more debug flags from the global debugger state.
-    extern void swiftnet_remove_debug_flags(const uint32_t flags);
+    extern void swiftnet_remove_debug_flags(const enum SwiftNetDebugFlags flags);
 #endif
 
 
